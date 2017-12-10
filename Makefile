@@ -1,25 +1,40 @@
 # Makefile for OS
+# Note: $^ = all dependencies, $< = first dependency, $@ = target
 
-# constants
-OBJS=boot.asm print_string_pm.asm gdt.asm \
-	switch_to_pm.asm print_string.asm disk_load.asm
-VPATH=boot boot/print boot/gdt boot/disk boot/utils kernel
 
-# build
-build: boot.bin kernel.bin
-	cat boot.bin kernel.bin > os-image
+# Generate list of sources using wildcards
+C_SOURCES= $(wildcard kernel/*.c drivers/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h)
+
+# List of objects to build
+OBJ = ${C_SOURCES:.c=.o}
+
+all: os-image
+
+# run
+run: all
 	qemu-system-i386 -drive format=raw,file=os-image
 
-boot.bin: $(OBJS)
-	nasm boot/boot.asm -f bin -o boot.bin
+# build
+os-image: boot/boot_sect.bin kernel.bin
+	cat $^ > os-image
 
-kernel.bin: kernel.o
-	ld -o kernel.bin -Ttext 0x1000 kernel.o --oformat binary
 
-kernel.o: kernel.c
-	gcc -ffreestanding -c kernel/kernel.c -o kernel.o
+kernel.bin: kernel/kernel_entry.o ${OBJ}
+	ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
-clean:
-	rm -rf *.bin
-	rm -rf kernel.o
-	rm -rf os-image
+# Generic rule for compiling C code to an object file
+# For simplicity , the C files depend on all header files .
+%.o : %.c ${HEADERS}
+	gcc -ffreestanding -c $< -o $@
+
+# Assemble the kernel_entry .
+%.o : %.asm
+	nasm $< -f elf64 -o $@
+
+%.bin : %.asm
+	nasm $< -f bin -o $@
+
+clean :
+	rm -rf *.bin *.dis *.o os-image
+	rm -rf kernel/*.o boot/*.bin drivers/*.o
