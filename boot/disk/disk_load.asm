@@ -1,4 +1,5 @@
 ; load DH sectors to ES:BX from drive DL
+[bits 16]
 
 disk_load:
 	push dx				; store the number of sectors to be written

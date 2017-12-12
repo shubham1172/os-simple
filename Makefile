@@ -3,8 +3,8 @@
 
 
 # Generate list of sources using wildcards
-C_SOURCES= $(wildcard kernel/*.c drivers/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h)
+C_SOURCES= $(wildcard drivers/*.c kernel/*.c)
+HEADERS = $(wildcard drivers/*.h kernel/*.h)
 
 # List of objects to build
 OBJ = ${C_SOURCES:.c=.o}
