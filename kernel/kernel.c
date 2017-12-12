@@ -17,8 +17,8 @@ int main(){
         video[off+2] = color;
         off+=2;i++;
   }*/
-  char msg = 'A';
-  char attr = 0xf0;
-  print_char(msg, 0, 0, attr);
+  char attr = 0x0f;
+  print_char('A', 0, 0, attr);
+  print_char('B', 1, 0, attr);
   return 0;
 }

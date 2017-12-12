@@ -9,7 +9,7 @@
 * goes in vidmem[2]. Strange! :/
 */
 
-void print_char(char c, int col, int row, char attribute_byte);
+void print_char(char character, int col, int row, char attribute_byte);
 int get_screen_offset(int col, int row);
 int get_cursor();
 void set_cursor(int offset);
@@ -19,9 +19,6 @@ int handle_scrolling(int cursor_offset);
 void print_char(char character, int col, int row, char attribute_byte){
   // pointer to start of memory
   volatile unsigned char *vidmem = (volatile unsigned char *)VIDEO_ADDRESS;
-  vidmem[1]=character;
-  vidmem[2]=attribute_byte;
-
   // default attribute
   if(!attribute_byte){
     attribute_byte = WHITE_ON_BLACK;
@@ -79,12 +76,17 @@ void set_cursor(int offset){
 // print a message at (col, row)
 void print_at(char* message, int col, int row){
   // update cursor if col and row are not negative
-  if(col>-0 && row>=0)
+  if(col>=0 && row>=0)
     set_cursor(get_screen_offset(col, row));
-
-  int i=0;
-  while(message[i]!=0){
-    print_char(message[i++], col, row, WHITE_ON_BLACK);
+  int i=2;
+  char c = message[1];
+  print_char(c, col, row, WHITE_ON_BLACK);
+  while(1){
+    c = message[i];
+    if(c==0)
+      break;
+    print_char(c, -1, -1, WHITE_ON_BLACK);
+    i++;
   }
 }
 
