@@ -1,9 +1,11 @@
 #include "video.h"
 
+int get_offset(int row, int col);
+
 /** print msg at (x,y) */
 void print_at(const char* msg, int x, int y){
   unsigned char *video = (unsigned char *)VIDEO_ADDRESS;
-  unsigned int off=get_offset(x,y);
+  unsigned int off = get_offset(x,y);
   unsigned int i=1;
   while(1){
         char c = msg[i];
