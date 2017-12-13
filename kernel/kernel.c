@@ -1,11 +1,11 @@
 /**
 * Kernel code
 */
-#include "../drivers/screen.h"
+#include "../drivers/video.h"
 
 int main(){
-
-  /**unsigned char *video = (unsigned char *)0xb8000;
+  /**
+  unsigned char *video = (unsigned char *)0xb8000;
   const char* msg = "This is a message";
   const char color = 0x1f;
   unsigned int off=0; unsigned int i=1;
@@ -17,8 +17,8 @@ int main(){
         video[off+2] = color;
         off+=2;i++;
   }*/
-  char attr = 0x0f;
-  print_char('A', 0, 0, attr);
-  print_char('B', 1, 0, attr);
-  return 0;
+ clear_screen();
+ print_at("WELCOME TO 1172-OS!",0,0);
+ print_at("SIMPLE, ELEGANT, BEAUTIFUL.",2,0);
+ return 0;
 }
