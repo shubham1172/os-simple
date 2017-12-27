@@ -14,4 +14,5 @@
 
 // function declarations
 void print_at(const char* msg, int x, int y);
+void print(const char* msg);
 void clear_screen();
