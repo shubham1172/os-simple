@@ -15,6 +15,10 @@ all: os-image
 run: all
 	qemu-system-i386 -drive format=raw,file=os-image
 
+# debug mode
+debug: all
+	qemu-system-i386 -s -S -drive format=raw,file=os-image
+
 # build
 os-image: boot/boot_sect.bin kernel.bin
 	cat $^ > os-image
