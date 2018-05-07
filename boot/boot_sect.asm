@@ -12,6 +12,8 @@ KERNEL_OFFSET equ 0x1000; memory offset to load the kernel
 
 	call load_kernel			; load kernel
 
+	call delay						; delay
+
 	call switch_to_pm			; switch to protected mode
 
 	jmp $
@@ -21,6 +23,7 @@ KERNEL_OFFSET equ 0x1000; memory offset to load the kernel
 %include "boot/print/print_string_pm.asm"
 %include "boot/gdt/gdt.asm"
 %include "boot/utils/switch_to_pm.asm"
+%include "boot/utils/delay.asm"
 
 [bits 16]
 ; load kernel
