@@ -1,8 +1,8 @@
 [bits 16]
 ; Switch to protected mode
 switch_to_pm:
-	cli							; switch off interrupts
-	lgdt [gdt_descriptor]; load gdt descriptor
+	cli									; switch off interrupts
+	lgdt [gdt_descriptor]	; load gdt descriptor
 
 	mov eax, cr0				; set first bit of cr0
 	or eax, 0x1
