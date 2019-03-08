@@ -1,6 +1,7 @@
 /**
 * Low level controller that manages I/O ports
 */
+#include "port_controller.h"
 
 
 // Read a byte from port
