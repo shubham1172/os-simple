@@ -1,5 +1,5 @@
 /**
-* Screen driver header file
+* Video driver header file
 */
 #define VIDEO_ADDRESS 0xb8000
 #define MAX_ROWS 25
@@ -13,6 +13,6 @@
 #define REG_SCREEN_DATA 0x3D5
 
 // function declarations
-void print_at(const char* msg, int x, int y);
-void print(const char* msg);
+void print_at(const char *msg, int x, int y);
+void print(const char *msg);
 void clear_screen();

@@ -24,11 +24,11 @@ kernel.bin: kernel/kernel_entry.o ${OBJ}
 	ld -melf_i386 -o $@ -Ttext 0x1000 $^ --oformat binary
 
 # Generic rule for compiling C code to an object file
-# For simplicity , the C files depend on all header files .
+# For simplicity, the C files depend on all header files
 %.o : %.c ${HEADERS}
 	gcc -m32 -fno-PIC -ffreestanding -c $< -o $@
 
-# Assemble the kernel_entry .
+# Assemble the kernel_entry
 %.o : %.asm
 	nasm $< -f elf32 -o $@
 
