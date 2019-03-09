@@ -1,24 +1,24 @@
 ; A boot sector that boots a C kernel
 [org 0x7c00]
-KERNEL_OFFSET equ 0x1000; memory offset to load the kernel
+KERNEL_OFFSET equ 0x1000		; memory offset to load the kernel
 
-	mov [BOOT_DRIVE], dl	; store boot drive
+	mov [BOOT_DRIVE], dl		; store boot drive
 
 	mov bp, 0x9000				; set the stack
 	mov sp, bp
 
-	mov bx, MSG_REAL_MODE	; announce starting
+	mov bx, MSG_REAL_MODE		; announce starting
 	call print_string
 
 	call load_kernel			; load kernel
 
-	call delay						; delay
+	call delay					; delay
 
 	call switch_to_pm			; switch to protected mode
 
 	jmp $
 
-%include "boot/disk/disk_load.asm"
+%include "boot/disk/disk_load_test.asm"
 %include "boot/print/print_string.asm"
 %include "boot/print/print_string_pm.asm"
 %include "boot/gdt/gdt.asm"
@@ -28,13 +28,13 @@ KERNEL_OFFSET equ 0x1000; memory offset to load the kernel
 [bits 16]
 ; load kernel
 load_kernel:
-	mov bx, MSG_LOAD_KERNEL	; announce kernel load
+	mov bx, MSG_LOAD_KERNEL		; announce kernel load
 	call print_string
 
-	mov bx, KERNEL_OFFSET		; set up disk_load params
+	mov bx, KERNEL_OFFSET		; set up disk_load_test params
 	mov dh, 3
 	mov dl, [BOOT_DRIVE]
-	call disk_load
+	call disk_load_test
 
 	ret
 
@@ -42,12 +42,12 @@ load_kernel:
 ; begin protected mode
 BEGIN_PM:
 
-	mov ebx, MSG_PROT_MODE	; announce protected mode
+	mov ebx, MSG_PROT_MODE		; announce protected mode
 	call print_string_pm
 
 	call KERNEL_OFFSET			; jump to the loaded kernel
 
-	jmp $										; hang
+	jmp $						; hang
 
 ; global variables
 BOOT_DRIVE db 0

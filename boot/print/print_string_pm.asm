@@ -11,17 +11,17 @@ print_string_pm:
 	mov edx, VIDEO_MEMORY			; set EDX to the start of vid memory
 
 print_string_pm_loop:
-	mov al, [ebx]							; store char at EBX in AL
-	mov ah, WHITE_ON_BLACK		; store attributes in AH
+	mov al, [ebx]					; store char at EBX in AL
+	mov ah, WHITE_ON_BLACK			; store attributes in AH
 
-	cmp al, 0									; compare to null
-	je print_string_pm_done		; jump to done
+	cmp al, 0						; compare to null
+	je print_string_pm_done			; jump to done
 
-	mov [edx], ax							; store AH and AL at current cell
-	inc ebx										; read next character
-	add edx, 2								; jump to next cell in vid mem
+	mov [edx], ax					; store AH and AL at current cell
+	inc ebx							; read next character
+	add edx, 2						; jump to next cell in vid mem
 
-	jmp print_string_pm_loop	; loop
+	jmp print_string_pm_loop		; loop
 
 print_string_pm_done:
 	popa
